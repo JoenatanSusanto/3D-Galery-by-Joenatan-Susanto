@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Gallery - Professional Display with Media</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loader" id="loader">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <p class="loader-text">Loading 3D Models...</p>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container" id="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                    <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                    <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                </svg>
+                <span>3D Gallery by Jeonatan Susanto</span>
+            </div>
+            <nav class="nav">
+                <button class="nav-btn active" data-model="0">All Models</button>
+                <button class="nav-btn" data-model="1">Model 01</button>
+                <button class="nav-btn" data-model="2">Model 02</button>
+                <button class="nav-btn" data-model="3">Model 03</button>
+                <button class="nav-btn" data-model="4">Model 04</button>
+            </nav>
+            <div class="header-actions">
+                <button class="toggle-media-btn" id="toggleMediaBtn" title="Toggle Media Panel">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                        <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="2"/>
+                        <circle cx="8.5" cy="8.5" r="1.5" fill="currentColor"/>
+                        <path d="M21 15L16 10L5 21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+                <button class="info-btn" id="infoBtn" title="Information">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                        <line x1="12" y1="16" x2="12" y2="12" stroke="currentColor" stroke-width="2"/>
+                        <line x1="12" y1="8" x2="12.01" y2="8" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Content Area -->
+        <div class="main-content">
+            <!-- Canvas Container (Left Side) -->
+            <div class="canvas-container" id="canvasContainer"></div>
+
+            <!-- Media Panel (Right Side - Hidden by default) -->
+            <div class="media-panel" id="mediaPanel">
+                <div class="media-panel-header">
+                    <h3 class="media-title">Media Gallery</h3>
+                    <div class="media-count-badge" id="mediaCountBadge">0 items</div>
+                </div>
+                
+                <div class="media-scroll-container" id="mediaScrollContainer">
+                    <!-- Media items will be inserted here dynamically -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Model Info Panel -->
+        <div class="model-info" id="modelInfo">
+            <h2 class="model-title" id="modelTitle">Select a Model</h2>
+            <p class="model-description" id="modelDescription">Click on any model to view details and media</p>
+            <div class="model-stats" id="modelStats"></div>
+        </div>
+
+        <!-- 3D Controls -->
+        <div class="controls-3d" id="controls3d">
+            <button class="control-btn" id="resetView" title="Reset View">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                    <path d="M1 4V10H7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M23 20V14H17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M20.49 9C19.9828 7.56678 19.1209 6.2854 17.9845 5.27542C16.8482 4.26544 15.4745 3.55976 13.9917 3.22426C12.5089 2.88875 10.9652 2.93434 9.50481 3.35677C8.04437 3.77921 6.71475 4.56471 5.64 5.64L1 10M23 14L18.36 18.36C17.2853 19.4353 15.9556 20.2208 14.4952 20.6432C13.0348 21.0657 11.4911 21.1113 10.0083 20.7757C8.52547 20.4402 7.1518 19.7346 6.01547 18.7246C4.87913 17.7146 4.01717 16.4332 3.51 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+            <button class="control-btn" id="autoRotate" title="Auto Rotate">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                    <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                    <path d="M12 6V12L16 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+            </button>
+            <button class="control-btn" id="toggleWireframe" title="Wireframe Mode">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                    <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="2"/>
+                    <line x1="3" y1="9" x2="21" y2="9" stroke="currentColor" stroke-width="2"/>
+                    <line x1="3" y1="15" x2="21" y2="15" stroke="currentColor" stroke-width="2"/>
+                    <line x1="9" y1="3" x2="9" y2="21" stroke="currentColor" stroke-width="2"/>
+                    <line x1="15" y1="3" x2="15" y2="21" stroke="currentColor" stroke-width="2"/>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Grid View Toggle -->
+        <button class="grid-view-btn" id="gridViewBtn" title="Toggle Grid View">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <rect x="3" y="3" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2"/>
+                <rect x="14" y="3" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2"/>
+                <rect x="3" y="14" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2"/>
+                <rect x="14" y="14" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2"/>
+            </svg>
+        </button>
+    </div>
+
+    <!-- Fullscreen Modal -->
+    <div class="fullscreen-modal" id="fullscreenModal">
+        <div class="fullscreen-header">
+            <span class="fullscreen-title" id="fullscreenTitle">Media Preview</span>
+            <div class="fullscreen-controls">
+                <button class="fullscreen-btn" id="fsDownloadBtn" title="Download">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                        <path d="M21 15V19C21 20.1046 20.1046 21 19 21H5C3.89543 21 3 20.1046 3 19V15M17 10L12 15M12 15L7 10M12 15V3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+                <button class="fullscreen-close" id="fsCloseBtn">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <div class="fullscreen-content" id="fullscreenContent"></div>
+    </div>
+
+    <!-- Scripts -->
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+            }
+        }
+    </script>
+    <script type="module" src="js/main.js"></script>
+</body>
+</html>
